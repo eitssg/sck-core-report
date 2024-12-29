@@ -1,6 +1,10 @@
 """Lambda handler to inspect Task Payload and return a result"""
 
+import core_logging as log
+
 from core_framework.models import TaskPayload
+
+from ._version import __version__
 
 
 def handler(event: dict, context: dict | None) -> str:
@@ -25,20 +29,34 @@ def handler(event: dict, context: dict | None) -> str:
     Returns:
         str: "SUCCESS" if FlowControl is 'success'
     """
+    log.trace("Report instection received event: {}".format(event))
+
     try:
-        task_payload = TaskPayload(**event)
-    except Exception as e:
-        raise Exception("Invalid task payload: {}".format(e))
+        try:
+            task_payload = TaskPayload(**event)
+        except Exception as e:
+            raise Exception("Invalid task payload: {}".format(e))
 
-    fc = task_payload.FlowControl
+        log.info("Task Payload Inspecter v{}", __version__)
+        log.info(
+            "Inspection of task payload task: {}, flow_control: {}".format(
+                task_payload.Task, task_payload.FlowControl
+            )
+        )
 
-    if fc == "success":
-        return "SUCCESS"
+        log.debug("Task Payload:", details=task_payload.model_dump())
 
-    if fc == "failure":
-        raise Exception("A failure occurred. See logs for further details.")
+        fc = task_payload.FlowControl
 
-    raise Exception(
-        "Unknown failure condition occurred (flow_control = '{}'). "
-        "See logs for further details.".format(fc)
-    )
+        if fc == "success":
+            return "SUCCESS"
+
+        if fc == "failure":
+            raise Exception("A failure occurred. See logs for further details.")
+
+        raise Exception(
+            "Unknown failure condition occurred (flow_control = '{}'). "
+            "See logs for further details.".format(fc)
+        )
+    finally:
+        log.trace("Report inspection complete")
