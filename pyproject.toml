@@ -1,0 +1,47 @@
+[build-system]
+requires = [ "poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0",]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry]
+name = "sck-core-report"
+version = "0.0.3"
+description = "Tool to inspect flow control of stepfunction"
+authors = [ "James Barwick <jbarwick@me.com>",]
+license = "GPL-3.0-only"
+readme = "README.md"
+keywords = ["sck", "core", "aws", "cloud", "automation"]
+include = ["core_report/_version.py"]
+
+[[tool.poetry.packages]]
+include = "core_report"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+boto3 = ">=1.35.87"
+botocore = ">=1.35.87"
+
+[tool.poetry.dependencies.sck-core-framework]
+path = "../sck-core-framework"
+develop = true
+
+[[tool.poetry.source]]
+name = "nexus"
+url = "https://monster-jj.jvj28.com:9091/repository/pypi/simple/"
+priority = "primary"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+bump = true
+ignore-untracked = true
+style = "semver"
+
+[tool.poetry-dynamic-versioning.files."core_report/_version.py"]
+persistent-substitution = true
+initial-content = "  \"\"\"\n  This is the version informatooin for this template\n  \"\"\"\n  __version__ = \"0.0.0\"\n  __version_tuple__ = (0, 0, 0)\n"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+flake8 = "^7.1.1"
+cfn-lint = "^1.18.4"
+black = "^24.10.0"
+pytest-dotenv = "^0.5.2"
