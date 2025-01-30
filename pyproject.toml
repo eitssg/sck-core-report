@@ -4,7 +4,7 @@ build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry]
 name = "sck-core-report"
-version = "0.0.3"
+version = "0.0.4"
 description = "Tool to inspect flow control of stepfunction"
 authors = [ "James Barwick <jbarwick@me.com>",]
 license = "GPL-3.0-only"
@@ -19,10 +19,7 @@ include = "core_report"
 python = "^3.12"
 boto3 = ">=1.35.93"
 botocore = ">=1.35.93"
-
-[tool.poetry.dependencies.sck-core-framework]
-path = "../sck-core-framework"
-develop = true
+sck-core-framework = "^0.0.4"
 
 [[tool.poetry.source]]
 name = "nexus"
