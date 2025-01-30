@@ -4,7 +4,7 @@ import core_logging as log
 
 from core_framework.models import TaskPayload
 
-from ._version import __version__
+from core_report import __version__
 
 
 def handler(event: dict, context: dict | None) -> str:

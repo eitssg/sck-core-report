@@ -10,7 +10,7 @@ authors = [ "James Barwick <jbarwick@me.com>",]
 license = "GPL-3.0-only"
 readme = "README.md"
 keywords = ["sck", "core", "aws", "cloud", "automation"]
-include = ["core_report/_version.py"]
+include = ["core_report/version.py"]
 
 [[tool.poetry.packages]]
 include = "core_report"
@@ -32,9 +32,8 @@ bump = true
 ignore-untracked = true
 style = "semver"
 
-[tool.poetry-dynamic-versioning.files."core_report/_version.py"]
-persistent-substitution = true
-initial-content = "  \"\"\"\n  This is the version informatooin for this template\n  \"\"\"\n  __version__ = \"0.0.0\"\n  __version_tuple__ = (0, 0, 0)\n"
+[tool.poetry-dynamic-versioning.substitution]
+files = ["core_report/__init__.py"]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
@@ -42,3 +41,4 @@ flake8 = "^7.1.1"
 cfn-lint = "^1.22.3"
 black = "^24.10.0"
 pytest-dotenv = "^0.5.2"
+pytest-codecov = "^0.6.1"
