@@ -120,18 +120,18 @@ reference = "nexus"
 
 [[package]]
 name = "boto3"
-version = "1.36.11"
+version = "1.36.12"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.8"
 groups = ["main", "dev"]
 files = [
-    {file = "boto3-1.36.11-py3-none-any.whl", hash = "sha256:641dd772eac111d9443258f0f5491c57c2af47bddae94a8d32de19edb5bf7b1c"},
-    {file = "boto3-1.36.11.tar.gz", hash = "sha256:b40fbf2c0f22e55b67df95475a68bb72be5169097180a875726b6b884339ac8b"},
+    {file = "boto3-1.36.12-py3-none-any.whl", hash = "sha256:32cdf0967287f3ec25a9dc09df0d29cb86b8900c3e0546a63d672775d8127abf"},
+    {file = "boto3-1.36.12.tar.gz", hash = "sha256:287d84f49bba3255a17b374578127d42b6251e72f55914a62e0ad9ca78c0954b"},
 ]
 
 [package.dependencies]
-botocore = ">=1.36.11,<1.37.0"
+botocore = ">=1.36.12,<1.37.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.11.0,<0.12.0"
 
@@ -145,14 +145,14 @@ reference = "nexus"
 
 [[package]]
 name = "botocore"
-version = "1.36.11"
+version = "1.36.12"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.8"
 groups = ["main", "dev"]
 files = [
-    {file = "botocore-1.36.11-py3-none-any.whl", hash = "sha256:82c5660027f696608d0e55feb08c146c11c7ebeba7615961c7765dcf6009a00d"},
-    {file = "botocore-1.36.11.tar.gz", hash = "sha256:c919be883f95b9e0c3021429a365d40cd7944b8345a07af30dc8d891ceefe07a"},
+    {file = "botocore-1.36.12-py3-none-any.whl", hash = "sha256:5ae1ed362c8ed908a6ced8cdd12b21e2196c100bc79f9e95c9c1fc7f9ea74f5a"},
+    {file = "botocore-1.36.12.tar.gz", hash = "sha256:86ed88beb4f244c96529435c868d3940073c2774116f0023fb7691f6e7053bd9"},
 ]
 
 [package.dependencies]
@@ -1651,33 +1651,30 @@ reference = "nexus"
 
 [[package]]
 name = "sck-core-framework"
-version = "0.0.5"
+version = "0.0.6"
 description = "Core-Framework for Core-Automation"
 optional = false
-python-versions = ">=3.12,<4.0"
+python-versions = "^3.12"
 groups = ["main"]
-files = [
-    {file = "sck_core_framework-0.0.5-py3-none-any.whl", hash = "sha256:629834b73e5695ae614282040735e4a6e52acbdbc0633ce7747f2a6ce9742f11"},
-    {file = "sck_core_framework-0.0.5.tar.gz", hash = "sha256:a11ed9db71be6b96f88de253ef4d54dce6666640ce1b61e31696503efc9130a6"},
-]
+files = []
+develop = true
 
 [package.dependencies]
 boto3 = ">=1.35.93"
 botocore = ">=1.35.93"
-deepdiff = ">=7.0.1,<8.0.0"
-filters = ">=1.3.2,<2.0.0"
-jinja2 = ">=3.1.4,<4.0.0"
-jmespath = ">=1.0.1,<2.0.0"
-netaddr = ">=1.3.0,<2.0.0"
-python-slugify = ">=8.0.4,<9.0.0"
-pyyaml = ">=6.0.2,<7.0.0"
-pyyaml-include = ">=2.1,<3.0"
-ruamel-yaml = ">=0.18.10,<0.19.0"
+deepdiff = "^7.0.1"
+filters = "^1.3.2"
+jinja2 = "^3.1.4"
+jmespath = "^1.0.1"
+netaddr = "^1.3.0"
+python-slugify = "^8.0.4"
+pyyaml = "^6.0.2"
+pyyaml-include = "^2.1"
+ruamel-yaml = "^0.18.10"
 
 [package.source]
-type = "legacy"
-url = "https://monster-jj.jvj28.com:9091/repository/pypi/simple"
-reference = "nexus"
+type = "directory"
+url = "../sck-core-framework"
 
 [[package]]
 name = "six"
@@ -1779,4 +1776,4 @@ reference = "nexus"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "14e378f0567ed1433ec54ba90c686c92b8b9c1a33237bf39dcc53b4b5134143c"
+content-hash = "8fd768dc7e816c69a7fcc215d55d0919d5acfd8fac8d6d0d09cacad998ea9bdb"
