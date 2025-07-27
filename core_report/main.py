@@ -38,7 +38,11 @@ def handler(event: dict, context: dict | None) -> str:
             raise Exception("Invalid task payload: {}".format(e))
 
         log.info("Task Payload Inspecter v{}", __version__)
-        log.info("Inspection of task payload task: {}, flow_control: {}".format(task_payload.task, task_payload.flow_control))
+        log.info(
+            "Inspection of task payload task: {}, flow_control: {}".format(
+                task_payload.task, task_payload.flow_control
+            )
+        )
 
         log.debug("Task Payload:", details=task_payload.model_dump())
 
@@ -50,6 +54,9 @@ def handler(event: dict, context: dict | None) -> str:
         if fc == "failure":
             raise Exception("A failure occurred. See logs for further details.")
 
-        raise Exception("Unknown failure condition occurred (flow_control = '{}'). " "See logs for further details.".format(fc))
+        raise Exception(
+            "Unknown failure condition occurred (flow_control = '{}'). "
+            "See logs for further details.".format(fc)
+        )
     finally:
         log.trace("Report inspection complete")

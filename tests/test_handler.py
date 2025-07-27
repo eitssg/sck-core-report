@@ -62,7 +62,10 @@ def test_report_other(task_payload: TaskPayload):
 
     except Exception as e:
 
-        assert str(e) == "Unknown failure condition occurred (" "flow_control = 'wait'). See logs for further details."
+        assert (
+            str(e) == "Unknown failure condition occurred ("
+            "flow_control = 'wait'). See logs for further details."
+        )
 
 
 def test_invalid_payload():
