@@ -28,7 +28,7 @@ def task_payload():
 def test_report_failure(task_payload: TaskPayload):
 
     try:
-        task_payload.FlowControl = "failure"
+        task_payload.flow_control = "failure"
 
         response = handler(task_payload.model_dump(), None)
 
@@ -41,7 +41,7 @@ def test_report_failure(task_payload: TaskPayload):
 def test_report_success(task_payload: TaskPayload):
 
     try:
-        task_payload.FlowControl = "success"
+        task_payload.flow_control = "success"
 
         response = handler(task_payload.model_dump(), None)
 
@@ -54,7 +54,7 @@ def test_report_success(task_payload: TaskPayload):
 def test_report_other(task_payload: TaskPayload):
 
     try:
-        task_payload.FlowControl = "wait"
+        task_payload.flow_control = "wait"
 
         response = handler(task_payload.model_dump(), None)
 
@@ -62,10 +62,7 @@ def test_report_other(task_payload: TaskPayload):
 
     except Exception as e:
 
-        assert (
-            str(e) == "Unknown failure condition occurred ("
-            "flow_control = 'wait'). See logs for further details."
-        )
+        assert str(e) == "Unknown failure condition occurred (" "flow_control = 'wait'). See logs for further details."
 
 
 def test_invalid_payload():
