@@ -1,3 +1,3 @@
 """Tool to inspect result from stepfunction exe4cution"""
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
