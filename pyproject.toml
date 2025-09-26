@@ -4,7 +4,7 @@ build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry]
 name = "sck-core-report"
-version = "0.1.1"
+version = "0.1.2-pre.1+a1794c2"
 description = "Tool to inspect flow control of stepfunction"
 authors = [ "James Barwick <jbarwick@me.com>",]
 license = "GPL-3.0-only"
