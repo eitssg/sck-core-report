@@ -1,19 +1,25 @@
 """Lambda handler to inspect Task Payload and return a result"""
 
 import core_logging as log
+import json
 
 from core_framework.models import TaskPayload
+from core_execute import load_state
 
-from core_report import __version__
+
+def get_module_version() -> str:
+    # return the version of this packackage
+    version = "1.0.0"
+    return version
 
 
-def handler(event: dict, context: dict | None) -> str:
+def handler(event: dict, context: dict | None) -> dict:
     """
     Tool to inspect result from stepfunction exe4cution.
 
     Expects event to be created by TaskPayload model.
 
-    task_payload = TaskPayload(**details)
+    task_payload = TaskPayload.model_validate(details)
 
     event = task_payload.model_dump()
 
@@ -29,34 +35,32 @@ def handler(event: dict, context: dict | None) -> str:
     Returns:
         str: "SUCCESS" if FlowControl is 'success'
     """
-    log.trace("Report instection received event: {}".format(event))
-
     try:
-        try:
-            task_payload = TaskPayload(**event)
-        except Exception as e:
-            raise Exception("Invalid task payload: {}".format(e))
+        task_payload = TaskPayload.model_validate(event)
 
-        log.info("Task Payload Inspecter v{}", __version__)
-        log.info(
-            "Inspection of task payload task: {}, flow_control: {}".format(
-                task_payload.task, task_payload.flow_control
-            )
-        )
+        log.info("Task Payload Inspecter v{}", get_module_version())
+        log.info("Inspection of task payload task: {}, flow_control: {}".format(task_payload.task, task_payload.flow_control))
 
         log.debug("Task Payload:", details=task_payload.model_dump())
 
-        fc = task_payload.flow_control
+        state = load_state(task_payload)
 
-        if fc == "success":
-            return "SUCCESS"
+        flow_control = state.get("flow_control", "unknown")
 
-        if fc == "failure":
-            raise Exception("A failure occurred. See logs for further details.")
+        body = {"flow_control": flow_control}
 
-        raise Exception(
-            "Unknown failure condition occurred (flow_control = '{}'). "
-            "See logs for further details.".format(fc)
-        )
-    finally:
-        log.trace("Report inspection complete")
+        return {
+            "statusCode": 200,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps(body),
+        }
+
+    except Exception as e:
+
+        log.error("Error processing task payload: {}", str(e))
+
+        return {
+            "statusCode": 500,
+            "headers": {"Content-Type": "application/json"},
+            "body": json.dumps({"error": str(e)}),
+        }

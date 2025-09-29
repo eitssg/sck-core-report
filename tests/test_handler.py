@@ -1,5 +1,7 @@
 import pytest
-import os
+import json
+
+import core_framework as util
 
 from core_framework.models import (
     TaskPayload,
@@ -7,12 +9,13 @@ from core_framework.models import (
 )
 
 from core_report.main import handler
+from core_execute import load_state, save_state
+
+client = util.get_client() or "core"
 
 
 @pytest.fixture(scope="module")
-def task_payload():
-
-    os.environ["CLIENT"] = "my-client"
+def task_payload() -> TaskPayload:
 
     return TaskPayload(
         Task="deploy",
@@ -27,54 +30,60 @@ def task_payload():
 
 def test_report_failure(task_payload: TaskPayload):
 
-    try:
-        task_payload.flow_control = "failure"
+    state = {"flow_control": "failure"}
 
-        response = handler(task_payload.model_dump(), None)
+    save_state(task_payload, state)
 
-        assert False, response
+    event = task_payload.model_dump()
 
-    except Exception as e:
-        assert str(e) == "A failure occurred. See logs for further details."
+    response = handler(event, None)
+
+    assert isinstance(response, dict)
+    assert response["statusCode"] == 200
+    assert response["body"] == json.dumps(state)
+
+    loaded_state = load_state(task_payload)
+
+    assert loaded_state.get("flow_control") == "failure"
 
 
 def test_report_success(task_payload: TaskPayload):
 
-    try:
-        task_payload.flow_control = "success"
+    state = {"flow_control": "success"}
 
-        response = handler(task_payload.model_dump(), None)
+    save_state(task_payload, state)
 
-        assert response == "SUCCESS"
+    event = task_payload.model_dump()
 
-    except Exception as e:
-        assert False, str(e)
+    response = handler(event, None)
+
+    assert isinstance(response, dict)
+    assert response["statusCode"] == 200
+    assert response["body"] == json.dumps(state)
+
+    loaded_state = load_state(task_payload)
+
+    assert loaded_state.get("flow_control") == "success"
 
 
 def test_report_other(task_payload: TaskPayload):
 
-    try:
-        task_payload.flow_control = "wait"
+    state = {"flow_control": "pending"}
 
-        response = handler(task_payload.model_dump(), None)
+    save_state(task_payload, state)
 
-        assert False, response
+    response = handler(task_payload.model_dump(), None)
 
-    except Exception as e:
-
-        assert (
-            str(e) == "Unknown failure condition occurred ("
-            "flow_control = 'wait'). See logs for further details."
-        )
+    assert isinstance(response, dict)
+    assert response["statusCode"] == 200
+    assert response["body"] == json.dumps(state)
 
 
 def test_invalid_payload():
 
-    try:
-        response = handler({}, None)
+    response = handler({}, None)
 
-        assert False, response
+    assert isinstance(response, dict)
+    assert response["statusCode"] == 500
 
-    except Exception as e:
-
-        assert "Invalid task payload" in str(e)
+    print(json.loads(response["body"]))
