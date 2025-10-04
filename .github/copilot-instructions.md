@@ -1,5 +1,8 @@
 # Copilot Instructions (Submodule: sck-core-report)
 
+## Plan → Approval → Execute (Mandatory)
+All non-trivial actions must follow the plan/approval workflow defined at the root. Trivial Q&A may bypass; otherwise wait for explicit approval.
+
 - Tech: Python package.
 - Precedence: Local first; fallback to root `../../.github/...`.
 - Conventions: Reuse `../sck-core-ui/docs/backend-code-style.md` for AWS/S3/Lambda usage.
