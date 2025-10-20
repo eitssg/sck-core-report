@@ -11,7 +11,7 @@ from core_framework.models import (
 from core_report.main import handler
 from core_execute import load_state, save_state
 
-client = util.get_client() or "core"
+client = "core"
 
 
 @pytest.fixture(scope="module")

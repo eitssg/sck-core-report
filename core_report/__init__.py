@@ -1,3 +1,5 @@
 """Tool to inspect result from stepfunction exe4cution"""
 
-__version__ = "0.1.2-pre.6+05b701f"
+from importlib.metadata import version
+
+__version__ = version("sck-core-report")
